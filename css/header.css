@@ -1,0 +1,50 @@
+
+.menu {
+  position: fixed;
+  width: 100%;
+  
+  display: flex;
+  justify-content: center;
+
+  background-color: var(--blue-dark);
+}
+
+.menu div {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: 1000px;
+
+  padding: 0 1em;
+}
+
+.menu .link-home {
+  color: whitesmoke;
+  font-weight: bold;
+  padding: 8px 0;
+}
+
+.menu section {
+  display: flex;
+}
+
+.menu section .link-pages {
+  height: 100%;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+}
+
+.menu section .link-pages p {
+  color: whitesmoke;
+}
+
+.menu section .link-pages:hover {
+  background-color: var(--blue-light);
+}
+
+.menu section .link-pages:hover p {
+  color: var(--blue-dark);
+}

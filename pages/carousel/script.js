@@ -1,11 +1,11 @@
 const track = document.querySelector('.track');
-const slides = Array.from(track.children);
+let slides = Array.from(track.children);
+
+const dotsNav = document.querySelector('.nav');
+let dots = Array.from(dotsNav.children);
 
 const nextBtn = document.querySelector('.carousel-btn-right');
 const prevBtn = document.querySelector('.carousel-btn-left');
-
-const dotsNav = document.querySelector('.nav');
-const dots = Array.from(dotsNav.children);
 
 const setSlidePosition = (slide, index) => {
   const slideWidth = slide.getBoundingClientRect().width;
@@ -26,24 +26,60 @@ window.onresize = () => {
 
 nextBtn.onclick = () => {
   const currentSlide = track.querySelector('.current-slide');
-  const nextSlide = currentSlide.nextElementSibling;
+  let nextSlide = currentSlide.nextElementSibling;
+
+  if (!nextSlide) nextSlide = slides[0];
 
   const currentDot = dotsNav.querySelector('.current-slide');
-  const nextDot = currentDot.nextElementSibling;
+  let nextDot = currentDot.nextElementSibling;
+
+  if (!nextDot) nextDot = dots[0];
+
+  const [currentPos] = currentSlide.style.left.split('px');
+  const [nextPos] = nextSlide.style.left.split('px');
+
+  if (Number(currentPos) > Number(nextPos)) {
+    nextSlide.style.left =
+      Number(currentPos) + currentSlide.getBoundingClientRect().width + 'px';
+
+    updateDots(
+      dots[slides.indexOf(currentSlide)],
+      dots[slides.indexOf(nextSlide)]
+    );
+  } else {
+    updateDots(currentDot, nextDot);
+  }
 
   moveSlides(currentSlide, nextSlide);
-  updateDots(currentDot, nextDot);
 };
 
 prevBtn.onclick = () => {
   const currentSlide = track.querySelector('.current-slide');
-  const prevSlide = currentSlide.previousElementSibling;
+  let prevSlide = currentSlide.previousElementSibling;
 
+  if (!prevSlide) prevSlide = slides[slides.length - 1];
+  
   const currentDot = dotsNav.querySelector('.current-slide');
-  const prevDot = currentDot.previousElementSibling;
+  let prevDot = currentDot.previousElementSibling;
+  
+  if (!prevDot) prevDot = dots[dots.length - 1];
+
+  const [currentPos] = currentSlide.style.left.split('px');
+  const [prevPos] = prevSlide.style.left.split('px');
+
+  if (Number(currentPos) < Number(prevPos)) {
+    prevSlide.style.left =
+      Number(currentPos) - currentSlide.getBoundingClientRect().width + 'px';
+
+    updateDots(
+      dots[slides.indexOf(currentSlide)],
+      dots[slides.indexOf(prevSlide)]
+    );
+  } else {
+    updateDots(currentDot, prevDot);
+  }
 
   moveSlides(currentSlide, prevSlide);
-  updateDots(currentDot, prevDot);
 };
 
 dotsNav.onclick = event => {
@@ -60,10 +96,8 @@ dotsNav.onclick = event => {
 };
 
 const moveSlides = (currentSlide, targetSlide) => {
-  if (!targetSlide) return;
-
   const amountToMove = targetSlide.style.left;
-  track.style.transform = `translateX(-${amountToMove})`;
+  track.style.transform = `translateX(${-amountToMove.split('px')[0]}px)`;
   track.style.transition = 'transform 1s ease-in-out';
 
   currentSlide.classList.remove('current-slide');

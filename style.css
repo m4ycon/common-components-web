@@ -1,0 +1,32 @@
+.title {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.grid-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 1em 2em;
+  padding: 1em;
+  margin: 0 auto;
+
+  width: min-content;
+  background-color: var(--blue-light);
+}
+
+.grid-links a {
+  background-color: var(--blue-med);
+  color: white;
+
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.grid-links a:hover {
+  filter: brightness(.95);
+}
+
+.grid-links a:active {
+  transform: scale(.95);
+}

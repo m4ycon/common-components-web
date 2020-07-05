@@ -58,7 +58,7 @@ dotsNav.onclick = event => {
 const moveSlides = (currentSlide, targetSlide) => {
   const amountToMove = targetSlide.style.left;
   track.style.transform = `translateX(${-amountToMove.split('px')[0]}px)`;
-  track.style.transition = 'transform 1s ease-out';
+  track.style.transition = 'transform 2s ease-in-out';
 
   currentSlide.classList.remove('current-slide');
   targetSlide.classList.add('current-slide');
@@ -93,3 +93,7 @@ const changeAbsolutePosSlideAndUpdateDots = (
     dots[slides.indexOf(targetSlide)]
   );
 };
+
+setInterval(() => {
+  nextBtn.click();
+}, 7000);

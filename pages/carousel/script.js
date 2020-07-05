@@ -7,6 +7,15 @@ let dots = Array.from(dotsNav.children);
 const nextBtn = document.querySelector('.carousel-btn-right');
 const prevBtn = document.querySelector('.carousel-btn-left');
 
+let changeSlideEvent = true;
+const scrollingTimeS = 2;
+const scrollingTimeMs = scrollingTimeS * 1000;
+
+const getSlideStyleLeft = index =>
+  Number(slides[index].style.left.split('px')[0]);
+
+const getSlideWidth = () => slides[0].getBoundingClientRect().width;
+
 const setSlidePosition = (slide, index) => {
   const slideWidth = slide.getBoundingClientRect().width;
   slide.style.left = slideWidth * index + 'px';
@@ -25,24 +34,85 @@ window.onresize = () => {
 };
 
 nextBtn.onclick = () => {
+  if (!changeSlideEvent) return;
+
   const currentSlide = track.querySelector('.current-slide');
   let nextSlide = currentSlide.nextElementSibling;
-  if (!nextSlide) nextSlide = slides[0];
 
-  changeAbsolutePosSlideAndUpdateDots(currentSlide, nextSlide, 'right');
-  moveSlides(currentSlide, nextSlide);
+  if (!nextSlide) {
+    // infinity effect
+    nextSlide = slides[0];
+    const rearrangementInitialPos =
+      getSlideStyleLeft(slides.indexOf(currentSlide)) + getSlideWidth();
+    nextSlide.style.left = rearrangementInitialPos + 'px';
+
+    moveSlides(currentSlide, nextSlide);
+
+    // changing position of all slides, but not the last
+    for (let i = 1; i < slides.length - 1; i++) {
+      slides[i].style.left =
+        getSlideStyleLeft(slides.length - 1) + getSlideWidth() * (i + 1) + 'px';
+    }
+
+    // changing the last with a timer to not disturb the user
+    setTimeout(() => {
+      slides[slides.length - 1].style.left =
+        getSlideStyleLeft(slides.length - 2) + getSlideWidth() + 'px';
+    }, scrollingTimeMs);
+  } else {
+    moveSlides(currentSlide, nextSlide);
+  }
+
+  updateDots(
+    dots[slides.indexOf(currentSlide)],
+    dots[slides.indexOf(nextSlide)]
+  );
+
+  changeSlideEvent = false;
+  setTimeout(() => changeSlideEvent = true, scrollingTimeMs);
 };
 
 prevBtn.onclick = () => {
+  if (!changeSlideEvent) return;
+
   const currentSlide = track.querySelector('.current-slide');
   let prevSlide = currentSlide.previousElementSibling;
-  if (!prevSlide) prevSlide = slides[slides.length - 1];
 
-  changeAbsolutePosSlideAndUpdateDots(currentSlide, prevSlide, 'left');
-  moveSlides(currentSlide, prevSlide);
+  if (!prevSlide) {
+    // infinity effect
+    prevSlide = slides[slides.length - 1];
+    const rearrangementInitialPos = getSlideStyleLeft(0) - getSlideWidth();
+    console.log(rearrangementInitialPos);
+    prevSlide.style.left = rearrangementInitialPos + 'px';
+
+    moveSlides(currentSlide, prevSlide);
+
+    // changing position of all slides, but not the first
+    for (let i = slides.length - 1; i > 0; i--) {
+      slides[i].style.left =
+        getSlideStyleLeft(0) - getSlideWidth() * (slides.length - i) + 'px';
+    }
+
+    // changing the first with a timer to not disturb the user
+    setTimeout(() => {
+      slides[0].style.left = getSlideStyleLeft(1) - getSlideWidth() + 'px';
+    }, scrollingTimeMs);
+  } else {
+    moveSlides(currentSlide, prevSlide);
+  }
+
+  updateDots(
+    dots[slides.indexOf(currentSlide)],
+    dots[slides.indexOf(prevSlide)]
+  );
+
+  changeSlideEvent = false;
+  setTimeout(() => changeSlideEvent = true, scrollingTimeMs);
 };
 
 dotsNav.onclick = event => {
+  if (!changeSlideEvent) return;
+
   const currentDot = dotsNav.querySelector('.current-slide');
   const targetDot = event.target.closest('button');
   if (!targetDot) return;
@@ -53,12 +123,15 @@ dotsNav.onclick = event => {
 
   moveSlides(currentSlide, targetSlide);
   updateDots(currentDot, targetDot);
+
+  changeSlideEvent = false;
+  setTimeout(() => changeSlideEvent = true, scrollingTimeMs);
 };
 
 const moveSlides = (currentSlide, targetSlide) => {
-  const amountToMove = targetSlide.style.left;
-  track.style.transform = `translateX(${-amountToMove.split('px')[0]}px)`;
-  track.style.transition = 'transform 2s ease-in-out';
+  const amountToMove = getSlideStyleLeft(slides.indexOf(targetSlide));
+  track.style.transform = `translateX(${-amountToMove}px)`;
+  track.style.transition = `transform ${scrollingTimeS}s ease-in-out`;
 
   currentSlide.classList.remove('current-slide');
   targetSlide.classList.add('current-slide');
@@ -70,30 +143,4 @@ const updateDots = (currentDot, targetDot) => {
   targetDot.classList.add('current-slide');
 };
 
-const changeAbsolutePosSlideAndUpdateDots = (
-  currentSlide,
-  targetSlide,
-  direction
-) => {
-  const [currentPos] = currentSlide.style.left.split('px');
-  const [targetPos] = targetSlide.style.left.split('px');
-
-  if (Number(currentPos) > Number(targetPos) && direction === 'right') {
-    targetSlide.style.left =
-      Number(currentPos) + currentSlide.getBoundingClientRect().width + 'px';
-  }
-
-  if (Number(currentPos) < Number(targetPos) && direction === 'left') {
-    targetSlide.style.left =
-      Number(currentPos) - currentSlide.getBoundingClientRect().width + 'px';
-  }
-
-  updateDots(
-    dots[slides.indexOf(currentSlide)],
-    dots[slides.indexOf(targetSlide)]
-  );
-};
-
-setInterval(() => {
-  nextBtn.click();
-}, 7000);
+setInterval(() => nextBtn.click(), 12000);

@@ -27,58 +27,18 @@ window.onresize = () => {
 nextBtn.onclick = () => {
   const currentSlide = track.querySelector('.current-slide');
   let nextSlide = currentSlide.nextElementSibling;
-
   if (!nextSlide) nextSlide = slides[0];
 
-  const currentDot = dotsNav.querySelector('.current-slide');
-  let nextDot = currentDot.nextElementSibling;
-
-  if (!nextDot) nextDot = dots[0];
-
-  const [currentPos] = currentSlide.style.left.split('px');
-  const [nextPos] = nextSlide.style.left.split('px');
-
-  if (Number(currentPos) > Number(nextPos)) {
-    nextSlide.style.left =
-      Number(currentPos) + currentSlide.getBoundingClientRect().width + 'px';
-
-    updateDots(
-      dots[slides.indexOf(currentSlide)],
-      dots[slides.indexOf(nextSlide)]
-    );
-  } else {
-    updateDots(currentDot, nextDot);
-  }
-
+  changeAbsolutePosSlideAndUpdateDots(currentSlide, nextSlide, 'right');
   moveSlides(currentSlide, nextSlide);
 };
 
 prevBtn.onclick = () => {
   const currentSlide = track.querySelector('.current-slide');
   let prevSlide = currentSlide.previousElementSibling;
-
   if (!prevSlide) prevSlide = slides[slides.length - 1];
-  
-  const currentDot = dotsNav.querySelector('.current-slide');
-  let prevDot = currentDot.previousElementSibling;
-  
-  if (!prevDot) prevDot = dots[dots.length - 1];
 
-  const [currentPos] = currentSlide.style.left.split('px');
-  const [prevPos] = prevSlide.style.left.split('px');
-
-  if (Number(currentPos) < Number(prevPos)) {
-    prevSlide.style.left =
-      Number(currentPos) - currentSlide.getBoundingClientRect().width + 'px';
-
-    updateDots(
-      dots[slides.indexOf(currentSlide)],
-      dots[slides.indexOf(prevSlide)]
-    );
-  } else {
-    updateDots(currentDot, prevDot);
-  }
-
+  changeAbsolutePosSlideAndUpdateDots(currentSlide, prevSlide, 'left');
   moveSlides(currentSlide, prevSlide);
 };
 
@@ -98,7 +58,7 @@ dotsNav.onclick = event => {
 const moveSlides = (currentSlide, targetSlide) => {
   const amountToMove = targetSlide.style.left;
   track.style.transform = `translateX(${-amountToMove.split('px')[0]}px)`;
-  track.style.transition = 'transform 1s ease-in-out';
+  track.style.transition = 'transform 1s ease-out';
 
   currentSlide.classList.remove('current-slide');
   targetSlide.classList.add('current-slide');
@@ -108,4 +68,28 @@ const updateDots = (currentDot, targetDot) => {
   if (!targetDot) return;
   currentDot.classList.remove('current-slide');
   targetDot.classList.add('current-slide');
+};
+
+const changeAbsolutePosSlideAndUpdateDots = (
+  currentSlide,
+  targetSlide,
+  direction
+) => {
+  const [currentPos] = currentSlide.style.left.split('px');
+  const [targetPos] = targetSlide.style.left.split('px');
+
+  if (Number(currentPos) > Number(targetPos) && direction === 'right') {
+    targetSlide.style.left =
+      Number(currentPos) + currentSlide.getBoundingClientRect().width + 'px';
+  }
+
+  if (Number(currentPos) < Number(targetPos) && direction === 'left') {
+    targetSlide.style.left =
+      Number(currentPos) - currentSlide.getBoundingClientRect().width + 'px';
+  }
+
+  updateDots(
+    dots[slides.indexOf(currentSlide)],
+    dots[slides.indexOf(targetSlide)]
+  );
 };

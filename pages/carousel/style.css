@@ -34,13 +34,18 @@
 .carousel .carousel-btn {
   position: absolute;
   top: 50%;
+
+  width: 50px;
+  height: 50px;
+
   transform: translateY(-50%);
   z-index: 10;
-  background-color: transparent;
+
   border: 0;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 2em;
+  border-radius: 50%;
   outline: 0;
+
+  background-color: #00000044;
 }
 
 .carousel .carousel-btn:hover {
@@ -54,8 +59,14 @@
 .carousel .carousel-btn-left {
   left: 10px;
 }
+
 .carousel .carousel-btn-right {
   right: 10px;
+}
+
+.carousel .carousel-btn img {
+  width: 40px;
+  height: 40px; 
 }
 
 .carousel .nav {

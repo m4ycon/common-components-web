@@ -82,7 +82,6 @@ prevBtn.onclick = () => {
     // infinity effect
     prevSlide = slides[slides.length - 1];
     const rearrangementInitialPos = getSlideStyleLeft(0) - getSlideWidth();
-    console.log(rearrangementInitialPos);
     prevSlide.style.left = rearrangementInitialPos + 'px';
 
     moveSlides(currentSlide, prevSlide);

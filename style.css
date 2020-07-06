@@ -18,6 +18,7 @@
 .grid-links a {
   background-color: var(--blue-med);
   color: white;
+  text-align: center;
 
   padding: 8px 16px;
   border-radius: 5px;

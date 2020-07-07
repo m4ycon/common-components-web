@@ -42,18 +42,20 @@
 .menu ul {
   list-style: none;
   position: fixed;
-  top: -100%;
+  top: 60px;
   left: 0;
 
   height: min-content;
   width: 100%;
   background-color: var(--blue-med);
 
-  transition: top 1s;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1s;
 }
 
 .menu #check:checked ~ ul {
-  top: 60px;
+  transform: scaleY(1);
 }
 
 .menu ul .link-pages {

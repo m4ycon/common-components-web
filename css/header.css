@@ -51,7 +51,7 @@
 
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 1s;
+  transition: transform 1s ease;
 }
 
 .menu #check:checked ~ ul {
@@ -79,7 +79,8 @@
 
   .menu #check:checked ~ ul,
   .menu #check ~ ul {
-    top: unset;
+    top: 0;
+    transform: unset;
   }
 
   .menu ul {
@@ -89,9 +90,9 @@
     position: relative;
     background-color: transparent;
 
-    left: unset;
-
     display: flex;
+    left: unset;
+    transition: unset;
 
     font-size: 0.8em;
   }

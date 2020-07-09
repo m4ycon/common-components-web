@@ -19,13 +19,10 @@ cepField.onchange = async () => {
     const cepInfos = await fetch(
       `https://viacep.com.br/ws/${cep}/json/`
     ).then(res => res.json());
-    addressField.value = cepInfos.logradouro;
-    neighborhoodField.value = cepInfos.bairro;
 
-    await updateCities(cepInfos.uf);
+    if (cepInfos.erro) return console.log('CEP inválido');
 
-    selectUf.value = cepInfos.uf;
-    selectCity.value = cepInfos.localidade;
+    updateAddress(cepInfos);
   }
 };
 
@@ -39,6 +36,15 @@ async function setUFs() {
   selectUf.innerHTML =
     '<option value="">Selecione seu Estado</option>' +
     ufSorted.map(({ sigla }) => `<option value="${sigla}">${sigla}</option>`);
+}
+
+async function updateAddress(cepInfos) {
+  addressField.value = cepInfos.logradouro;
+  neighborhoodField.value = cepInfos.bairro;
+
+  await updateCities(cepInfos.uf);
+  selectUf.value = cepInfos.uf;
+  selectCity.value = cepInfos.localidade;
 }
 
 async function updateCities(uf) {

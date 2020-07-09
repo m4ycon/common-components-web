@@ -8,7 +8,7 @@ Repository used to learn some common components that are largely used on web.
 - [x] Paralax
 - [x] Responsive menu
 - [x] Infinite carousel
-- [ ] Drag n drop
+- [x] Drag n drop
 - [ ] Dropdown
 
 ---

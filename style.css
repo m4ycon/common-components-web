@@ -19,6 +19,7 @@
   background-color: var(--blue-med);
   color: white;
   text-align: center;
+  width: 150px;
 
   padding: 8px 16px;
   border-radius: 5px;

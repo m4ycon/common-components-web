@@ -6,6 +6,7 @@ const cpfField = document.querySelector('#cpf');
 
 const neighborhoodField = document.querySelector('#neighborhood');
 const addressField = document.querySelector('#address');
+const phoneNumberField = document.querySelector('#phone-number');
 
 window.onload = async () => setUFs();
 
@@ -69,19 +70,30 @@ async function updateCities(uf) {
   );
 }
 
+cpfField.onchange = () => {
+  formatCpf(cpfField);
+  const cpf = cpfField.value.replace(/\D/g, '');
+};
+
+phoneNumberField.onchange = () => {
+  formatPhoneNumber(phoneNumberField);
+  const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
+}
+
 function formatCep(cep) {
   cep.value = cep.value.replace(/\D/g, '');
   if (cep.value.length !== 8) return;
   cep.value = cep.value.replace(/(\d{5})(\d{3})/, '$1-$2');
 }
 
-cpfField.onchange = () => {
-  const cpf = cpfField.value;
-  formatCpf(cpfField);
-};
-
 function formatCpf(cpf) {
   cpf.value = cpf.value.replace(/\D/g, '');
   if (cpf.value.length !== 11) return;
   cpf.value = cpf.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
+}
+
+function formatPhoneNumber(phoneNumber) {
+  phoneNumber.value = phoneNumber.value.replace(/\D/g, '');
+  if (phoneNumber.value.length < 10 || phoneNumber.value.length > 11) return;
+  phoneNumber.value = phoneNumber.value.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3')
 }

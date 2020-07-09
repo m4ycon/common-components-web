@@ -9,7 +9,8 @@ Repository used to learn some common components that are largely used on web.
 - [x] Responsive menu
 - [x] Infinite carousel
 - [x] Drag n drop
-- [ ] Dropdown
+- [x] Dropdown
+- [ ] Form
 
 ---
 

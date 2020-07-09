@@ -15,13 +15,15 @@ selectUf.onchange = async () => {
 
 cepField.onchange = async () => {
   const cep = cepField.value;
-  if (cep.length === 8) {
+  formatCep(cepField);
+
+  if (cep.length === 0) cleanAddress();
+  if (cep.match(/\d{5}-?\d{3}/)) {
     const cepInfos = await fetch(
       `https://viacep.com.br/ws/${cep}/json/`
     ).then(res => res.json());
 
-    if (cepInfos.erro) return console.log('CEP inválido');
-
+    if (cepInfos.erro) return cleanAddress();
     updateAddress(cepInfos);
   }
 };
@@ -47,6 +49,13 @@ async function updateAddress(cepInfos) {
   selectCity.value = cepInfos.localidade;
 }
 
+function cleanAddress() {
+  addressField.value = '';
+  neighborhoodField.value = '';
+  selectUf.value = '';
+  selectCity.value = '';
+}
+
 async function updateCities(uf) {
   selectCity.innerHTML = '<option value="">Selecione sua cidade</option>';
 
@@ -57,4 +66,10 @@ async function updateCities(uf) {
   selectCity.innerHTML += cities.map(
     ({ nome }) => `<option value="${nome}">${nome}</option>`
   );
+}
+
+function formatCep(cep) {
+  cep.value = cep.value.replace(/\D/g, '');
+  if (cep.value.length !== 8) return;
+  cep.value = cep.value.replace(/(\d{5})(\d{3})/, '$1-$2');
 }

@@ -2,6 +2,7 @@ const selectUf = document.querySelector('#uf');
 const selectCity = document.querySelector('#city');
 
 const cepField = document.querySelector('#cep');
+const cpfField = document.querySelector('#cpf');
 
 const neighborhoodField = document.querySelector('#neighborhood');
 const addressField = document.querySelector('#address');
@@ -72,4 +73,15 @@ function formatCep(cep) {
   cep.value = cep.value.replace(/\D/g, '');
   if (cep.value.length !== 8) return;
   cep.value = cep.value.replace(/(\d{5})(\d{3})/, '$1-$2');
+}
+
+cpfField.onchange = () => {
+  const cpf = cpfField.value;
+  formatCpf(cpfField);
+};
+
+function formatCpf(cpf) {
+  cpf.value = cpf.value.replace(/\D/g, '');
+  if (cpf.value.length !== 11) return;
+  cpf.value = cpf.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
 }

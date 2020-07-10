@@ -30,6 +30,16 @@ cepField.onchange = async () => {
   }
 };
 
+cpfField.onkeypress = () => {
+  formatCpf(cpfField);
+  const cpf = cpfField.value.replace(/\D/g, '');
+};
+
+phoneNumberField.onchange = () => {
+  formatPhoneNumber(phoneNumberField);
+  const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
+};
+
 async function setUFs() {
   const ufs = await fetch(
     'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
@@ -70,16 +80,6 @@ async function updateCities(uf) {
   );
 }
 
-cpfField.onchange = () => {
-  formatCpf(cpfField);
-  const cpf = cpfField.value.replace(/\D/g, '');
-};
-
-phoneNumberField.onchange = () => {
-  formatPhoneNumber(phoneNumberField);
-  const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
-}
-
 function formatCep(cep) {
   cep.value = cep.value.replace(/\D/g, '');
   if (cep.value.length !== 8) return;
@@ -87,13 +87,19 @@ function formatCep(cep) {
 }
 
 function formatCpf(cpf) {
-  cpf.value = cpf.value.replace(/\D/g, '');
-  if (cpf.value.length !== 11) return;
-  cpf.value = cpf.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
+  // 123.456.789-01
+  const cpfNum = cpf.value.replace(/[\D]/g, '');
+  cpf.value = cpfNum
+    .split('')
+    .map((n, i) => (i === 8 ? n + '-' : i % 3 === 2 ? n + '.' : n))
+    .join('');
 }
 
 function formatPhoneNumber(phoneNumber) {
   phoneNumber.value = phoneNumber.value.replace(/\D/g, '');
   if (phoneNumber.value.length < 10 || phoneNumber.value.length > 11) return;
-  phoneNumber.value = phoneNumber.value.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3')
+  phoneNumber.value = phoneNumber.value.replace(
+    /(\d{2})(\d{4,5})(\d{4})/,
+    '($1) $2-$3'
+  );
 }

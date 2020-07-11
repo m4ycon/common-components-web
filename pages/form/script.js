@@ -4,6 +4,8 @@ const selectCity = document.querySelector('#city');
 const cepField = document.querySelector('#cep');
 const cpfField = document.querySelector('#cpf');
 
+const birthField = document.querySelector('#birth');
+
 const neighborhoodField = document.querySelector('#neighborhood');
 const addressField = document.querySelector('#address');
 const phoneNumberField = document.querySelector('#phone-number');
@@ -38,6 +40,11 @@ cpfField.oninput = () => {
 phoneNumberField.oninput = () => {
   formatPhoneNumber(phoneNumberField);
   const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
+};
+
+birthField.oninput = () => {
+  formatToDate(birthField);
+  const birth = birthField.value.replace(/\D/g, '');
 };
 
 async function setUFs() {
@@ -106,4 +113,12 @@ function formatPhoneNumber(phoneNumber) {
     .replace(/(\d{4})-(\d{4})/, '$1-$2')
     .replace(/(\d{4})-(\d{1})(\d{4})/, '$1$2-$3')
     .replace(/(-\d{4})\d/, '$1');
+}
+
+function formatToDate(date) {
+  date.value = date.value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, '$1/$2')
+    .replace(/(\d{2})(\d)/, '$1/$2')
+    .replace(/(\/\d{4})\d/, '$1');
 }

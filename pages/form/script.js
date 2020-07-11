@@ -64,6 +64,12 @@ passwordEyeBtn.onclick = e => {
   }
 };
 
+passwordConfirmField.oninput = () => {
+  passwordField.value !== passwordConfirmField.value
+    ? (passwordConfirmField.style.outline = '1px solid red')
+    : (passwordConfirmField.style.outline = 'unset');
+};
+
 async function setUFs() {
   const ufs = await fetch(
     'https://servicodados.ibge.gov.br/api/v1/localidades/estados'

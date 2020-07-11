@@ -6,6 +6,10 @@ const cpfField = document.querySelector('#cpf');
 
 const birthField = document.querySelector('#birth');
 
+const passwordField = document.querySelector('#password');
+const passwordConfirmField = document.querySelector('#password-confirm');
+const passwordEyeBtn = document.querySelector('.password-eye');
+
 const neighborhoodField = document.querySelector('#neighborhood');
 const addressField = document.querySelector('#address');
 const phoneNumberField = document.querySelector('#phone-number');
@@ -45,6 +49,19 @@ phoneNumberField.oninput = () => {
 birthField.oninput = () => {
   formatToDate(birthField);
   const birth = birthField.value.replace(/\D/g, '');
+};
+
+passwordEyeBtn.onclick = e => {
+  e.preventDefault();
+  const [notSee, see] = passwordEyeBtn.children;
+  notSee.classList.toggle('hidden');
+  see.classList.toggle('hidden');
+
+  if (passwordField.type === 'password') {
+    passwordField.type = passwordConfirmField.type = 'text';
+  } else {
+    passwordField.type = passwordConfirmField.type = 'password';
+  }
 };
 
 async function setUFs() {

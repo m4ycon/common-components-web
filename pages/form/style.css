@@ -1,0 +1,8 @@
+.password-eye {
+  border: none;
+  outline: 0;
+}
+
+.password-eye .hidden {
+  display: none;
+}

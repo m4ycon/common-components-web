@@ -30,7 +30,8 @@ cepField.onchange = async () => {
   }
 };
 
-cpfField.onkeypress = () => {
+cpfField.onkeyup = () => {
+  if (e.keyCode === 8) return;
   formatCpf(cpfField);
   const cpf = cpfField.value.replace(/\D/g, '');
 };
@@ -91,10 +92,14 @@ function formatCep(cep) {
 
 function formatCpf(cpf) {
   // 123.456.789-01
-  const cpfNum = cpf.value.replace(/[\D]/g, '');
+  const cpfNum = cpf.value.replace(/\D/g, '');
   cpf.value = cpfNum
     .split('')
-    .map((n, i) => (i === 8 ? n + '-' : i % 3 === 2 ? n + '.' : n))
+    .map((n, i) => {
+      if (i === 2 || i === 5) return n + '.';
+      if (i === 8) return n + '-';
+      return n;
+    })
     .join('');
 }
 

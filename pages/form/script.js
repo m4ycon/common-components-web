@@ -35,10 +35,13 @@ cpfField.onkeypress = () => {
   const cpf = cpfField.value.replace(/\D/g, '');
 };
 
-phoneNumberField.onchange = () => {
+phoneNumberField.onkeyup = e => {
+  if (e.keyCode === 8) return;
   formatPhoneNumber(phoneNumberField);
   const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
 };
+
+phoneNumberField.onchange = () => formatPhoneNumber(phoneNumberField);
 
 async function setUFs() {
   const ufs = await fetch(
@@ -96,10 +99,15 @@ function formatCpf(cpf) {
 }
 
 function formatPhoneNumber(phoneNumber) {
-  phoneNumber.value = phoneNumber.value.replace(/\D/g, '');
-  if (phoneNumber.value.length < 10 || phoneNumber.value.length > 11) return;
-  phoneNumber.value = phoneNumber.value.replace(
-    /(\d{2})(\d{4,5})(\d{4})/,
-    '($1) $2-$3'
-  );
+  const phoneNum = phoneNumber.value.replace(/\D/g, '');
+  phoneNumber.value = phoneNum
+    .split('')
+    .map((n, i, arr) => {
+      if (i === 0) return '(' + n;
+      if (i === 1) return n + ') ';
+      if ((i === 5 && arr.length === 10) || (i === 6 && arr.length === 11))
+        return n + '-';
+      return n;
+    })
+    .join('');
 }

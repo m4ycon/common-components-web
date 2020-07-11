@@ -1,6 +1,7 @@
 .password-eye {
   border: none;
   outline: 0;
+  cursor: pointer;
 }
 
 .password-eye .hidden {

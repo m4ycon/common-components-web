@@ -57,18 +57,12 @@ passwordEyeBtn.onclick = e => {
   notSee.classList.toggle('hidden');
   see.classList.toggle('hidden');
 
-  if (passwordField.type === 'password') {
-    passwordField.type = passwordConfirmField.type = 'text';
-  } else {
-    passwordField.type = passwordConfirmField.type = 'password';
-  }
+  passwordField.type === 'password'
+    ? (passwordField.type = passwordConfirmField.type = 'text')
+    : (passwordField.type = passwordConfirmField.type = 'password');
 };
 
-passwordConfirmField.oninput = () => {
-  passwordField.value !== passwordConfirmField.value
-    ? (passwordConfirmField.style.outline = '1px solid red')
-    : (passwordConfirmField.style.outline = 'unset');
-};
+passwordConfirmField.oninput = () => passwordDiffers();
 
 async function setUFs() {
   const ufs = await fetch(
@@ -108,6 +102,12 @@ async function updateCities(uf) {
   selectCity.innerHTML += cities.map(
     ({ nome }) => `<option value="${nome}">${nome}</option>`
   );
+}
+
+function passwordDiffers() {
+  passwordField.value !== passwordConfirmField.value
+    ? (passwordConfirmField.style.outline = '1px solid red')
+    : (passwordConfirmField.style.outline = 'unset');
 }
 
 function formatCep(cep) {

@@ -15,7 +15,7 @@ selectUf.onchange = async () => {
   updateCities(uf);
 };
 
-cepField.onchange = async () => {
+cepField.oninput = async e => {
   const cep = cepField.value;
   formatCep(cepField);
 
@@ -30,8 +30,7 @@ cepField.onchange = async () => {
   }
 };
 
-cpfField.onkeyup = () => {
-  if (e.keyCode === 8) return;
+cpfField.oninput = e => {
   formatCpf(cpfField);
   const cpf = cpfField.value.replace(/\D/g, '');
 };
@@ -41,8 +40,6 @@ phoneNumberField.onkeyup = e => {
   formatPhoneNumber(phoneNumberField);
   const phoneNumber = phoneNumberField.value.replace(/\D/g, '');
 };
-
-phoneNumberField.onchange = () => formatPhoneNumber(phoneNumberField);
 
 async function setUFs() {
   const ufs = await fetch(
@@ -85,22 +82,21 @@ async function updateCities(uf) {
 }
 
 function formatCep(cep) {
-  cep.value = cep.value.replace(/\D/g, '');
-  if (cep.value.length !== 8) return;
-  cep.value = cep.value.replace(/(\d{5})(\d{3})/, '$1-$2');
+  // 12345-67
+  cep.value = cep.value
+    .replace(/\D/g, '')
+    .replace(/(\d{5})(\d{1,2})/, '$1-$2')
+    .replace(/(-\d{2})\d/, '$1');
 }
 
 function formatCpf(cpf) {
   // 123.456.789-01
-  const cpfNum = cpf.value.replace(/\D/g, '');
-  cpf.value = cpfNum
-    .split('')
-    .map((n, i) => {
-      if (i === 2 || i === 5) return n + '.';
-      if (i === 8) return n + '-';
-      return n;
-    })
-    .join('');
+  cpf.value = cpf.value
+    .replace(/\D/g, '')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1-$2')
+    .replace(/(-\d{2})\d/, '$1');
 }
 
 function formatPhoneNumber(phoneNumber) {

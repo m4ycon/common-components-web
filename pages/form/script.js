@@ -1,18 +1,25 @@
-const selectUf = document.querySelector('#uf');
-const selectCity = document.querySelector('#city');
+const nameField = document.querySelector('#name');
 
-const cepField = document.querySelector('#cep');
 const cpfField = document.querySelector('#cpf');
+const cepField = document.querySelector('#cep');
 
-const birthField = document.querySelector('#birth');
+const emailField = document.querySelector('#email');
+const phoneNumberField = document.querySelector('#phone-number');
 
 const passwordField = document.querySelector('#password');
 const passwordConfirmField = document.querySelector('#password-confirm');
 const passwordEyeBtn = document.querySelector('.password-eye');
 
+const birthField = document.querySelector('#birth');
+
 const neighborhoodField = document.querySelector('#neighborhood');
 const addressField = document.querySelector('#address');
-const phoneNumberField = document.querySelector('#phone-number');
+const numberAddressField = document.querySelector('#number-address');
+
+const selectUf = document.querySelector('#uf');
+const selectCity = document.querySelector('#city');
+
+const form = document.querySelector('form');
 
 window.onload = async () => setUFs();
 
@@ -64,6 +71,30 @@ passwordEyeBtn.onclick = e => {
 
 passwordConfirmField.oninput = () => passwordDiffers();
 
+form.onsubmit = e => {
+  e.preventDefault();
+  const data = {
+    name: nameField.value.trim(),
+    cpf: cpfField.value.replace(/\D/g, ''),
+    email: emailField.value.trim(),
+    phoneNumber: phoneNumberField.value.replace(/\D/g, ''),
+    password: passwordDiffers() ? null : passwordField.value,
+    birth: birthField.value.trim(),
+    cep: cepField.value.replace(/\D/g, ''),
+    neighborhood: neighborhoodField.value.trim(),
+    address: addressField.value.trim(),
+    numberAddress: numberAddressField.value.trim(),
+    uf: selectUf.value,
+    city: selectCity.value,
+  };
+
+  if (!data.password) throw new Error('Senha inválida');
+  if (!data.uf) throw new Error('Selecione um Estado');
+  if (!data.city) throw new Error('Selecione uma cidade');
+
+  console.log(data);
+};
+
 async function setUFs() {
   const ufs = await fetch(
     'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
@@ -108,6 +139,7 @@ function passwordDiffers() {
   passwordField.value !== passwordConfirmField.value
     ? (passwordConfirmField.style.backgroundColor = 'rgba(255,0,0,0.05)')
     : (passwordConfirmField.style.backgroundColor = 'white');
+  return passwordField.value !== passwordConfirmField.value;
 }
 
 function formatCep(cep) {

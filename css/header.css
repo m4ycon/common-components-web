@@ -22,6 +22,12 @@
   padding: 8px 0;
 }
 
+@media (max-width: 420px) {
+  .menu .link-home {
+    display: none;
+  }
+}
+
 .menu #check {
   display: none;
 }

@@ -5,7 +5,7 @@
 
 .grid-links {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
 
   gap: 1em 2em;
   padding: 1em;
@@ -13,6 +13,18 @@
 
   width: min-content;
   background-color: var(--blue-light);
+}
+
+@media (min-width: 420px) {
+  .grid-links {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 620px) {
+  .grid-links {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .grid-links a {
@@ -26,9 +38,9 @@
 }
 
 .grid-links a:hover {
-  filter: brightness(.95);
+  filter: brightness(0.95);
 }
 
 .grid-links a:active {
-  transform: scale(.95);
+  transform: scale(0.95);
 }

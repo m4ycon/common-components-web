@@ -32,108 +32,129 @@
 
     <main class="main-content">
       <form action="#">
-        <fieldset>
-          <label for="name">Nome</label>
-          <input type="text" name="name" id="name" required />
+        <div class="field">
+          <div class="input-field">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" required />
+          </div>
+          <div class="input-field">
+            <label for="cpf">CPF</label>
+            <input
+              type="text"
+              name="cpf"
+              id="cpf"
+              maxlength="14"
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+              placeholder="xxx.xxx.xxx-xx"
+              required
+            />
+          </div>
+        </div>
 
-          <label for="cpf">CPF</label>
-          <input
-            type="text"
-            name="cpf"
-            id="cpf"
-            maxlength="14"
-            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-            placeholder="xxx.xxx.xxx-xx"
-            required
-          />
-        </fieldset>
+        <div class="field">
+          <div class="input-field">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required />
+          </div>
+          <div class="input-field">
+            <label for="phone-number">Número de celular/telefone</label>
+            <input
+              type="text"
+              name="phone-number"
+              id="phone-number"
+              pattern="\(\d{2}\) \d{4,5}-\d{4}"
+              placeholder="(xx) xxxxx-xxxx"
+              maxlength="15"
+              required
+            />
+          </div>
+        </div>
 
-        <fieldset>
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" required />
+        <div class="field">
+          <div class="input-field">
+            <label for="password">Senha</label>
+            <input type="password" name="password" id="password" required />
+            <button class="password-eye">
+              <img src="../../assets/eye-off.svg" alt="" />
+              <img class="hidden" src="../../assets/eye.svg" alt="" />
+            </button>
+          </div>
 
-          <label for="phone-number">Número de celular/telefone</label>
-          <input
-            type="text"
-            name="phone-number"
-            id="phone-number"
-            pattern="\(\d{2}\) \d{4,5}-\d{4}"
-            placeholder="(xx) xxxxx-xxxx"
-            maxlength="15"
-            required
-          />
-        </fieldset>
+          <div class="input-field">
+            <label for="password-confirm">Confirme sua senha</label>
+            <input
+              type="password"
+              name="password-confirm"
+              id="password-confirm"
+              required
+            />
+          </div>
+        </div>
 
-        <fieldset>
-          <label for="password">Senha</label>
-          <input type="password" name="password" id="password" required />
-          <button class="password-eye">
-            <img src="../../assets/eye-off.svg" alt="" />
-            <img class="hidden" src="../../assets/eye.svg" alt="" />
-          </button>
+        <div class="field">
+          <div class="input-field">
+            <label for="birth">Data de nascimento</label>
+            <input
+              type="text"
+              name="birth"
+              id="birth"
+              pattern="\d{2}\/\d{2}\/\d{4}"
+              placeholder="dd/mm/aaaa"
+              maxlength="10"
+              required
+            />
+          </div>
+        </div>
 
-          <label for="password-confirm">Confirme sua senha</label>
-          <input
-            type="password"
-            name="password-confirm"
-            id="password-confirm"
-            required
-          />
-        </fieldset>
+        <div class="field">
+          <div class="input-field">
+            <label for="cep">CEP</label>
+            <input
+              type="text"
+              name="cep"
+              id="cep"
+              pattern="\d{5}-\d{3}"
+              placeholder="xxxxx-xxx"
+              maxlength="9"
+              required
+            />
+          </div>
+        </div>
 
-        <fieldset>
-          <label for="birth">Data de nascimento</label>
-          <input
-            type="text"
-            name="birth"
-            id="birth"
-            pattern="\d{2}\/\d{2}\/\d{4}"
-            placeholder="dd/mm/aaaa"
-            maxlength="10"
-            required
-          />
-        </fieldset>
+        <div class="field">
+          <div class="input-field">
+            <label for="neighborhood">Bairro</label>
+            <input type="text" name="neighborhood" id="neighborhood" required />
+          </div>
+          <div class="input-field">
+            <label for="address">Endereço</label>
+            <input type="text" name="address" id="address" required />
+          </div>
+          <div class="input-field">
+            <label for="number-address">Número</label>
+            <input
+              type="text"
+              name="number-address"
+              id="number-address"
+              required
+            />
+          </div>
+        </div>
 
-        <fieldset>
-          <label for="cep">CEP</label>
-          <input
-            type="text"
-            name="cep"
-            id="cep"
-            pattern="\d{5}-\d{3}"
-            placeholder="xxxxx-xxx"
-            maxlength="9"
-            required
-          />
-        </fieldset>
-
-        <fieldset>
-          <label for="neighborhood">Bairro</label>
-          <input type="text" name="neighborhood" id="neighborhood" required />
-
-          <label for="address">Endereço</label>
-          <input type="text" name="address" id="address" required />
-
-          <label for="number-address">Número</label>
-          <input
-            type="text"
-            name="number-address"
-            id="number-address"
-            required
-          />
-        </fieldset>
-
-        <fieldset>
-          <label for="uf">UF</label>
-          <select name="uf" id="uf">
-            <option value="">Selecione seu Estado</option>
-          </select>
-
-          <label for="city">Cidade</label>
-          <select name="city" id="city">
-            <option value="">Selecione sua cidade</option>
-          </select>
-        </fieldset>
+        <div class="field">
+          <div class="input-field">
+            <label for="uf">UF</label>
+            <select name="uf" id="uf">
+              <option value="">Selecione seu Estado</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <label for="city">Cidade</label>
+            <select name="city" id="city">
+              <option value="">Selecione sua cidade</option>
+            </select>
+          </div>
+        </div>
 
         <input type="submit" value="Submit" />
       </form>

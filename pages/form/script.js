@@ -106,8 +106,8 @@ async function updateCities(uf) {
 
 function passwordDiffers() {
   passwordField.value !== passwordConfirmField.value
-    ? (passwordConfirmField.style.outline = '1px solid red')
-    : (passwordConfirmField.style.outline = 'unset');
+    ? (passwordConfirmField.style.backgroundColor = 'rgba(255,0,0,0.05)')
+    : (passwordConfirmField.style.backgroundColor = 'white');
 }
 
 function formatCep(cep) {

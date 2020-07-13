@@ -32,7 +32,7 @@
   display: none;
 }
 
-.menu .checkbtn {
+.menu .check-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 
-.menu .checkbtn img {
+.menu .check-btn img {
   width: 30px;
 }
 
@@ -77,7 +77,7 @@
 }
 
 @media (min-width: 630px) {
-  .menu .checkbtn {
+  .menu .check-btn {
     display: none;
   }
 
